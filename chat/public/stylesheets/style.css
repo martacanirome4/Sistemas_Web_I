@@ -1,0 +1,25 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.chat-container {
+  display: block;
+  background-color: beige;
+  color: black;
+  margin: auto;
+  border-radius: 5px;
+}
+
+#chat-btn {
+  text-decoration: none;
+  padding: 10px 20px;
+  background-color: blue;
+  color: white;
+  border-radius: 5px;
+  display: inline-block;
+}
