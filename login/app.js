@@ -7,10 +7,12 @@ const session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var loginRouter = require('./routes/login');
+var restrictedRouter = require('./routes/restricted');
 
 var app = express();
 
-app.locals.title = "Ejercicio Login";
+app.locals.title = "Login Example";
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,29 +32,34 @@ app.use(session({
 }));
 
 // Middleware manejo de mensajes y errores en la sesion
-app.use( (req, res, next) => {
+app.use((req,res,next) => {
   const message = req.session.message;
   const error = req.session.error;
-
   delete req.session.message;
   delete req.session.error;
-
   res.locals.message = "";
   res.locals.error = "";
-
-  if(message){
-    res.locals.message = '<p>${message}</p>'
-  };
-  if(error){
-    res.locals.error = '<p>${error}</p>'
-  };
-
+  if(message){res.locals.message = `<p>${message}</p>`};
+  if(error){res.locals.error = `<p>${error}</p>`};
   next();
 });
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+app.use('/restricted', checkLogin, restrictedRouter);
+app.use('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
+});
 
+function checkLogin(req, res, next){
+  if(req.session.user){
+    next();
+  } else {
+    res.redirect('login');
+  }
+}
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
