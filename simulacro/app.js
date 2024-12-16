@@ -28,7 +28,11 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
 app.use((req,res,next) => {
+  // SOLUCIÓN!!! IMPORTANTE:
+  res.locals.cookies = req.session.cookies;
+
   const message = req.session.message;
   const error = req.session.error;
   delete req.session.message;
