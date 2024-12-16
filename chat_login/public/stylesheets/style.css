@@ -64,6 +64,11 @@ a {
   color: white;
   max-width: 70%;
   word-wrap: break-word;
+  transition: transform 0.2s ease;
+}
+
+#messages li:hover {
+  transform: scale(1.02);
 }
 
 #messages li:nth-child(odd) {
@@ -84,6 +89,11 @@ form input {
   font-size: 16px;
 }
 
+form input:invalid {
+  border-color: red;
+}
+
+
 form button {
   padding: 10px 20px;
   background-color: blue;
@@ -94,6 +104,40 @@ form button {
   font-size: 16px;
 }
 
-form button:hover {
-  background-color: #0056b3;
+button:hover {
+  transition: background-color 0.3s ease;
+}
+
+#welcome-banner{
+  display: block;
+  padding: 5px;
+  margin-right: 0;
+  background-color: plum;
+  border-radius: 5px;
+}
+
+#login-button {
+  background-color: #00BFFF;
+  color: white;
+  padding: 12px 20px;
+  margin: auto;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+#login-button:hover {
+  background-color: #007ACC;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+#login-button:active {
+  background-color: #005f99;
+  transform: scale(0.98);
 }
