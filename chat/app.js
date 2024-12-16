@@ -1,14 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const http = require('http');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var chatRouter = require('./routes/chat');
+const { Server } = require('socket.io');
 
-var app = express();
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const chatRouter = require('./routes/chat');
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
 app.locals.title = "Simple Chat";
 
@@ -25,6 +30,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/chat', chatRouter);
+
+// Socket.IO Configuration
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  // Listen for 'chat' events from clients
+  socket.on('chat', (msg) => {
+      console.log('Message received:', msg);
+      io.emit('chat', msg); // Broadcast the message to all clients
+  });
+
+  socket.on('disconnect', () => {
+      console.log('A user disconnected');
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

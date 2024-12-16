@@ -1,10 +1,12 @@
+<!-- views/chat.ejs -->
 <%- include("header", {}) %>
-<h1><%= title %></h1>
+<h1 style="text-align: center;"><%= title %></h1>
 <div class="chat-container" id="chat-container">
     <ul id="messages"></ul>
     <form id="form">
-        <input id="input" autocomplete="off" placeholder="Type a message...">
-        <button>Send</button>
+        <input id="input" autocomplete="off" placeholder="Type a message..." />
+        <button type="submit">Send</button>
     </form>
 </div>
+<!-- Include the client-side chat script -->
 <%- include("footer", {}) %>
