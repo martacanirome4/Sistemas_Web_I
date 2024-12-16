@@ -3,7 +3,7 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', {user:req.session.user, title:"Embutidos León"});
+  res.render('index', {user:req.session.user});
 });
 
 module.exports = router;

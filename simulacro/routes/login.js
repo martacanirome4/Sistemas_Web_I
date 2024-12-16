@@ -3,7 +3,7 @@ const router = express.Router();
 const database = require('../database');
 
 router.get('/', function(req, res, next) {
-  res.render('login', {user: req.session.user, title:"Embutidos León"});
+  res.render('login', {user: req.session.user});
 });
 
 router.post('/', async (req, res) => {

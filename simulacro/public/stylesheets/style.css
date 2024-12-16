@@ -39,3 +39,46 @@ li a:hover:not(.active) {
 .container{
   padding: 15px;
 }
+
+/* Estilos para el banner de cookies */
+#cookies {
+  position: fixed;
+  bottom: 0; /* Coloca el contenedor en la parte inferior */
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  z-index: 1000; /* Asegura que esté por encima de todo el contenido */
+}
+
+#cookies h1, #cookies p {
+  margin: 10px 0;
+}
+
+/* Centrado de los botones */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Espacio entre los botones */
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button#rechazar {
+  background-color: #f44336;
+}
+
+button:hover {
+  opacity: 0.8;
+}

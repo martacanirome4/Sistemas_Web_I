@@ -11,6 +11,9 @@ const tiendaRouter = require('./routes/tienda');
 const restrictedRouter = require('./routes/restricted');
 
 const app = express();
+
+app.locals.title = "Embutidos León";
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
