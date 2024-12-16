@@ -6,17 +6,33 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 // AGREGADOS DESPUÉS, INSTALAR!!
-const http = require('http');
 const session = require('express-session');
+const http = require('http');
+const {Server} = require("socket.io");
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const loginRouter = require('./routes/login');
-const chatRouter = require('./routes/chat');
+let indexRouter = require('./routes/index');
+let usersRouter = require('./routes/users');
+let loginRouter = require('./routes/login');
+let chatRouter = require('./routes/chat');
 
 const app = express();
+const httpServer = http.createServer(app);
+const io = new Server(httpServer);
 
 app.locals.title = "Chat with users";
+
+// middleware para el socket ----------------------------------------------------
+io.on("connection", (socket) => {
+  console.log("A new user has connected");
+  socket.on("chat", (msg) => {
+    console.log(msg);
+    io.emit("chat", msg);
+  });
+  socket.on("disconnect",()=>{
+    console.log("A user has disconnected");
+  });
+});
+// ------------------------------------------------------------------------------
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,45 +43,35 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Middleware de sesión
 app.use(session({
-  secret: 'secret_key',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Cambia a true si se usa HTTPS
+  saveUninitialized: false,
+  secret: 'El secreto que queramos nosotros'
 }));
 
 // Middleware manejo errores y mensajes en la sesión
-app.use((req, res, next) => {
-  const message = req.session.message;
-  const error = req.session.error;
-  delete req.session.message;
+app.use(function(req, res, next){
+  let error = req.session.error;
+  let message = req.session.message;
   delete req.session.error;
-  res.locals.message = "";
+  delete req.session.message;
   res.locals.error = "";
-  if(message){res.locals.message = `<p>${message}</p>`};
-  if(error){res.locals.error = `<p>${error}</p>`};
+  res.locals.message = "";
+  if (error) res.locals.error = `<p>${error}</p>`;
+  if (message) res.locals.message = `<p>${message}</p>`;
   next();
 });
 
+// ------------------------------------------------------------------------------
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/chat', isAuthenticated, chatRouter);
-app.use('/logout', (req, res) => {
-  req.session.destroy();
-  res.redirect('/');
-});
-
-function checkLogin(req, res, next){
-  if(req.session.user){
-    res.redirect('chat');
-    next();
-  } else {
-    res.redirect('login');
-  }
-}
+app.use('/logout', function(req, res, next){
+  req.session.destroy(function(){
+    res.redirect("/");
+  })
+})
 
 function isAuthenticated(req, res, next) {
   if (req.session && req.session.user) {
@@ -74,6 +80,7 @@ function isAuthenticated(req, res, next) {
   res.redirect('login');
 }
 
+// ----------------------------------- END ----------------------------------------
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -90,4 +97,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+// ---------- OJO!!!! CAMBIA, IMPORTANTE --------------------------------------------
+module.exports = {app, httpServer};

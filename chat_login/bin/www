@@ -1,15 +1,13 @@
 #!/usr/bin/env node
 
-// chat_login/bin/www
-
 /**
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('PrácticaExamen:server');
+var app = require('../app').app;
+var debug = require('debug')('expresslogin:server');
 var http = require('http');
-const { Server } = require("socket.io");
+
 /**
  * Get port from environment and store in Express.
  */
@@ -20,57 +18,10 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-var server = http.createServer(app);
-const io = new Server(server);
 
 
-// Attach session to socket.io connection
-io.use((socket, next) => {
-  // Get session data from the express app
-  const req = socket.request;
-  const res = req.res;  // Can be used to manage response
-  if (req.session && req.session.user) {
-    socket.username = req.session.user.username; // Attach username from session to socket
-    return next();
-  } else {
-    return next(new Error('User not authenticated'));
-  }
-});
+var server = require('../app').httpServer;   //con requiere accedemos al module.exports de app.js
 
-io.on('connection', (socket) => {
-  console.log('A user connected.');
-
-  socket.on('join', (username) => {
-      if (!username) {
-          console.log('Unauthenticated user attempted to join.');
-          socket.disconnect();
-          return;
-      }
-
-      socket.username = username;
-      console.log(`${username} has joined the chat.`);
-      io.emit('user_connected', `${username} has joined the chat`);
-  });
-
-  // Listen for chat messages
-  socket.on('chat', (data) => {
-      const { username, message } = data;
-      if (username && message) {
-          console.log(`${username} says: ${message}`);
-          io.emit('chat', { username, message });
-      }
-  });
-
-  // Handle user disconnect
-  socket.on('disconnect', () => {
-      if (socket.username) {
-          console.log(`${socket.username} disconnected.`);
-          io.emit('user_disconnected', `${socket.username} has left the chat.`);
-      }
-  });
-});
-
-  
 /**
  * Listen on provided port, on all network interfaces.
  */
