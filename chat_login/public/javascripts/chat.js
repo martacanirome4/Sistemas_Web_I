@@ -1,27 +1,22 @@
+const username = "<%= req.session.user.username %>";
+
 const socket = io();
 
-// DOM Elements
-const form = document.getElementById('form');
-const input = document.getElementById('input');
-const messages = document.getElementById('messages');
+socket.emit('join', username);
 
-// Handle form submission
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const message = input.value.trim();
-    if (message) {
-        socket.emit('chat', message); // Send message to server
-        input.value = ''; // Clear input
-    }
+socket.on('chat', (msg) => {
+    const item = document.createElement('li');
+    item.innerHTML = `<strong>${msg.username}</strong>: ${msg.message}`;
+    document.getElementById('messages').appendChild(item);
+    document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
 });
 
-// Listen for chat messages from the server
-socket.on('chat', (msg) => {
-    console.log("Mensaje recibido:", msg);
-    const item = document.createElement('li');
-    item.textContent = msg;
-    item.classList.add('chat-message');
-    messages.appendChild(item);
-    // Auto-scroll to the bottom
-    messages.scrollTop = messages.scrollHeight;
+document.getElementById('form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = document.getElementById('input');
+    const message = input.value.trim();
+    if (message) {
+        socket.emit('chat', { username, message });
+        input.value = '';
+    }
 });

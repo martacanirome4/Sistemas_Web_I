@@ -1,3 +1,4 @@
+// src/database/models/user.model.js
 const bcrypt = require('bcrypt');
 
 users = {};

@@ -1,3 +1,4 @@
+//src/app.js
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -7,7 +8,6 @@ const logger = require('morgan');
 // AGREGADOS DESPUÉS, INSTALAR!!
 const http = require('http');
 const session = require('express-session');
-const { Server } = require('socket.io');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -15,10 +15,8 @@ const loginRouter = require('./routes/login');
 const chatRouter = require('./routes/chat');
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
 
-app.locals.title = "Chat with User Login";
+app.locals.title = "Chat with users";
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,11 +29,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware de sesión
-// Middleware de sesión
 app.use(session({
-  secret: "Mi secreto",
+  secret: 'secret_key',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { secure: false } // Cambia a true si se usa HTTPS
 }));
 
 // Middleware manejo errores y mensajes en la sesión
@@ -54,7 +52,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
-app.use('/chat', chatRouter);
+app.use('/chat', isAuthenticated, chatRouter);
 app.use('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/');
@@ -69,20 +67,12 @@ function checkLogin(req, res, next){
   }
 }
 
-// Socket.IO Configuration
-io.on('connection', (socket) => {
-  console.log('A user connected');
-
-  // Listen for 'chat' events from clients
-  socket.on('chat', (msg) => {
-      console.log('Message received:', msg);
-      io.emit('chat', msg); // Broadcast the message to all clients
-  });
-
-  socket.on('disconnect', () => {
-      console.log('A user disconnected');
-  });
-});
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.user) {
+      return next();
+  }
+  res.redirect('login');
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
