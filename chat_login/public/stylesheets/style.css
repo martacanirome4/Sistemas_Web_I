@@ -1,0 +1,99 @@
+/* public/stylesheets/style.css */
+
+/* Global Styles */
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #f3f3f3;
+  margin: 0;
+}
+
+a {
+  color: #00B7FF;
+  text-decoration: none;
+}
+
+#chat-btn {
+  text-decoration: none;
+  padding: 10px 20px;
+  background-color: blue;
+  color: white;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+#chat-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Chat Container */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 600px;
+  height: 500px;
+  background-color: beige;
+  color: black;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+/* Messages List */
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px 0;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+#messages li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+#messages li:nth-child(odd) {
+  background-color: #0056b3; /* Alternate message color */
+}
+
+/* Form Styling */
+form {
+  display: flex;
+  gap: 10px;
+}
+
+form input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+form button {
+  padding: 10px 20px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
