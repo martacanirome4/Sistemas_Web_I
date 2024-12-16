@@ -1,4 +1,4 @@
-//src/databas/index.js
+//src/database/index.js
 const database = {};
 
 database.users = require('./models/user.model');

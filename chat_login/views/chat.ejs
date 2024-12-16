@@ -23,7 +23,7 @@
         });
         socket.on("chat", (msg) =>{
             const item = document.createElement("li");
-            item.textContent = msg;
+            item.textContent = `${msg.username}: ${msg.message}`;  // Display username along with the message
             messages.appendChild(item);
             window.scrollTo(0,document.body.scrollHeight);
         });

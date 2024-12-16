@@ -21,12 +21,23 @@ const io = new Server(httpServer);
 
 app.locals.title = "Chat with users";
 
-// middleware para el socket ----------------------------------------------------
+// middleware para conectar al socket --------------------------------------------
+io.use((socket, next) => {
+  const session = socket.request.headers.cookie ? socket.request.headers.cookie : '';
+  const sessionID = session.split('=')[1]; // Assuming 'connect.sid' as default session cookie name
+  socket.request.sessionID = sessionID; // Attach session ID to socket request
+  next();
+});
+
 io.on("connection", (socket) => {
   console.log("A new user has connected");
+
+  // Access session data using socket.request.sessionID
   socket.on("chat", (msg) => {
-    console.log(msg);
-    io.emit("chat", msg);
+    const session = socket.request.session || {}; // Get session from request
+    const user = session.user ? session.user.username : 'Unknown User'; // Get username from session
+    const messageWithUser = { username: user, message: msg };
+    io.emit("chat", messageWithUser);
   });
   socket.on("disconnect",()=>{
     console.log("A user has disconnected");
