@@ -1,0 +1,50 @@
+<%- include("header", {}) %>
+
+<table>
+ <tr> 
+  <th>Username
+  </th>
+  <th>Role
+  </th>
+  <th>Fecha
+  </th>
+  <th>Borrar
+  </th>
+  
+</tr>
+<% Object.keys(usuarios).forEach((nombreUsuario)=>{ %>
+<tr>
+  <td>
+    <%=usuarios[nombreUsuario].username %> 
+  </td>
+  <td>
+    <%=usuarios[nombreUsuario].role %> 
+  </td>
+  <td>
+    <%=usuarios[nombreUsuario].last_login %> 
+  </td>
+  <td>
+    <%if(usuarios[nombreUsuario].role !== 'admin'){ %> 
+      <form action="/admin/deleteUser" method="post">
+        <button name="username" value='<%=usuarios[nombreUsuario].username %>'>delete</button>
+      </form> 
+
+  <% } %>
+</td>
+</tr>
+
+
+ <% }) %>
+<tr>
+</tr>
+
+
+
+
+
+</table>
+
+
+
+
+<%- include("footer", {}) %>

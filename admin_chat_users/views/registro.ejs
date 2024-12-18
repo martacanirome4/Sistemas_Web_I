@@ -1,0 +1,28 @@
+<%- include("header", {}) %>
+<h1 style="color: red;"><%= title %> Registro</h1>
+<form id="form" method="post" action="/registro">
+    <label for="user" style="color: green;">Username:</label>
+    <input type="text" id="user" name="user" placeholder="Username">
+    <br>
+    <br>
+    <label for="password" style="color: red;">Password:</label>
+    <input type="password" id="password" name="pass"  placeholder="password">
+    <br>
+    <br>
+    <label for="password1" style="color: green;">Repeat Password:</label> 
+    <input type="password" id="password1" name="pass1" placeholder="password1">
+    <div class="mt-3"></div>
+
+    <p>
+        role:
+        <select name="roles" id="roles">
+          <option>usuario</option>
+          <option>admin</option>
+        </select>
+      </p>
+    <button id="ans" type="submit"  type="button" class="btn btn-success">Submit</button>
+    <div id="Error"></div>
+</form>
+<!-- <script type="text/javascript" src="/passwordValidadator.js"></script>
+onclick="passwordConfirmation()" -->
+<%- include("footer", {}) %>

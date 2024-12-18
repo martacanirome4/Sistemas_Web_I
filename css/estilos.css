@@ -1,0 +1,166 @@
+body {
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 1em;
+    margin: 0%;
+}
+
+div.header {
+    position: fixed;
+    left: 0vh;
+    top: 0vw;
+    height: 7vh;
+    width: 100vw;
+    z-index: 2;
+
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    padding-right: 2vw;
+    padding-left: 2vw;
+
+    margin-top: 0vh;
+    margin-bottom: 0vh;
+    margin-left: 0vw;
+
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: darkkhaki;
+
+    display: flex;
+    align-items: center;
+
+    background-color: darkred;
+}
+
+#webpage_title {
+    font-size: 2em;
+    font-weight: bold;
+    
+    padding: 0%, 0%, 0%, 0%; 
+
+    color: white;
+    text-decoration: none;
+}
+
+div.left_navbar {
+    position: fixed;
+    top: 13vh;
+    left: 0vw;
+    width: 15vw;
+    height: 87vh;
+    z-index: 1;
+
+    border-style: solid;
+    border-top: 0em;
+    border-width: 0.1em;
+    border-color: darkkhaki;
+
+    background-color: darkred;
+}
+
+div.left_navbar ul {
+    margin-top: 0vh;
+    margin-left: 0vw;
+
+    padding-left: 0vw;
+    padding-right: 0vw;
+    padding-top: 0vh;
+    padding-bottom: 0vh;
+
+    list-style: none;
+}
+
+a.navbar_item {
+    display: block;
+
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+
+    color: white;
+    text-decoration: none;
+}
+
+a.navbar_item:hover {
+    background-color: rgb(164, 0, 0);
+}
+
+div.content {
+    position: relative;
+
+    margin-top: 13vh;
+    margin-left: 15vw;
+    
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-top: 1vh;
+    padding-bottom: 2vw;
+}
+
+p {
+    text-align: justify;
+}
+
+div.image_group {
+    display: flex;
+    flex-wrap: wrap;
+
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+}
+
+div.img_with_caption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-left: 3vw;
+}
+
+p.caption {
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+img {
+    display: block;
+    margin: auto;
+}
+
+strong {
+    color: darkred;
+}
+
+div.footer {
+    position: relative;
+    bottom: 0vh;
+
+    padding-left: 16vw;
+    z-index: 0;
+
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: darkkhaki;
+
+    background-color: darkred;
+    color: white;
+}
+
+div.footer form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+}
+
+form div {
+    padding-left: 0.2vw;
+}
+
+/* ul hermana a p */
+p + ul {
+    margin-top: 0;
+}
